@@ -2,6 +2,10 @@ import requests
 import pandas as pd
 import csv
 import os
+from datetime import datetime, date, timedelta
+
+CC_COLUMNS = ['index', 'decimals', 'name', 'address']
+STARED = ['WEL', 'EDR', 'CNN', 'IVN', 'ZCO', 'COIN']
 
 def ReadCSVasDict(csv_file, csv_columns=[]):
     try:
@@ -25,6 +29,7 @@ def WriteDictToCSV(csv_file,csv_columns,dict_data):
     return
 
 
+
 # r = requests.post('https://api.idex.market/returnTicker',
 #                     json={"market": "ETH_EVN"}
 #                 )
@@ -34,36 +39,63 @@ def WriteDictToCSV(csv_file,csv_columns,dict_data):
 # print r.json()
 # print r.text
 
-r1 = requests.post('https://api.idex.market/returnCurrencies')
+def request_currencies_persisted():
+    r1 = requests.post('https://api.idex.market/returnCurrencies')
+    # print r1.status_code
+    # print result_dict.keys()
+
+    result_dict = r1.json()
+    flat_dict = []
+    for key, value in result_dict.iteritems():
+        value['index'] = key
+        flat_dict.append(value)
+
+    file = 'currencies_{}.csv'.format(datetime.now().strftime('%H%M%S'))
+    file_path = get_day_path() + file
+
+    WriteDictToCSV(file_path, CC_COLUMNS, flat_dict)
+    return file_path
+    # print flat_dict
+
+def get_day_path(dstr=''):
+    if dstr == '':
+        dstr = date.today().strftime('%Y%m%d')
+
+    currentPath = os.getcwd()
+    csv_file = currentPath + "/{}/".format(dstr)
+
+    if not os.path.exists(csv_file):
+        os.makedirs(csv_file)
+
+    return csv_file
+
+def get_new_listed_cc(cc_df, last_cc):
+    last_cc['old'] = 1
+    new_cc = pd.merge(cc_df, last_cc[['index', 'old']], left_on='index', right_on='index', how='outer')
+    return new_cc[new_cc['old'] != 1]
 
 
-# print r1.status_code
-# print result_dict.keys()
-
-result_dict = r1.json()
-flat_dict = []
-for key, value in result_dict.iteritems():
-    value['index'] = key
-    flat_dict.append(value)
-
-# print flat_dict
-
-
-currentPath = os.getcwd()
-csv_file = currentPath + "/20180606/currencies.csv"
-
-print csv_file
-csv_columns = ['index', 'decimals', 'name', 'address']
-WriteDictToCSV(csv_file,csv_columns,flat_dict)
+#
+# print csv_file
+# csv_columns = ['index', 'decimals', 'name', 'address']
+# WriteDictToCSV(csv_file,csv_columns,flat_dict)
 
 # ReadCSVasDict(csv_file, csv_columns)
-
-STARED = ['WEL', 'EDR', 'CNN', 'IVN', 'ZCO', 'COIN']
-
-
-cc_df = pd.read_csv(csv_file)
-print cc_df.count()
+new_file = request_currencies_persisted()
+cc_df = pd.read_csv(new_file)
+# print cc_df.count()
 # print cc_df
 
 # print cc_df[cc_df['index'].isin(STARED)]
-stared_cc = cc_df[cc_df['index'].isin(STARED)]
+# stared_cc = cc_df[cc_df['index'].isin(STARED)]
+last_csv = get_day_path(dstr='20180607') + "currencies.csv"
+last_cc = pd.read_csv(last_csv)
+# print last_cc
+
+new_cc = get_new_listed_cc(cc_df, last_cc)
+
+print "##############$$$$$$$$$$$$$$###################"
+print cc_df.count()
+print last_cc.count()
+print new_cc
+# print new_cc
