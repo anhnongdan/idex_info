@@ -3,9 +3,24 @@ import pandas as pd
 import csv
 import os
 from datetime import datetime, date, timedelta
+import config
 
-CC_COLUMNS = ['index', 'decimals', 'name', 'address']
-STARED = ['WEL', 'EDR', 'CNN', 'IVN', 'ZCO', 'COIN']
+
+CC_COLUMNS = ['index', 'decimals', 'name', 'address'],
+STARED = ['WEL', 'EDR', 'CNN', 'IVN', 'ZCO', 'COIN'],
+
+def get_day_path(dstr=''):
+    if dstr == '':
+        dstr = date.today().strftime('%Y%m%d')
+
+    currentPath = os.getcwd()
+    csv_file = currentPath + "/{}/".format(dstr)
+
+    if not os.path.exists(csv_file):
+        os.makedirs(csv_file)
+
+    return csv_file
+
 
 def ReadCSVasDict(csv_file, csv_columns=[]):
     try:
@@ -27,8 +42,6 @@ def WriteDictToCSV(csv_file,csv_columns,dict_data):
     except IOError as (errno, strerror):
             print("I/O error({0}): {1}".format(errno, strerror))
     return
-
-
 
 # r = requests.post('https://api.idex.market/returnTicker',
 #                     json={"market": "ETH_EVN"}
@@ -57,22 +70,11 @@ def request_currencies_persisted():
     return file_path
     # print flat_dict
 
-def get_day_path(dstr=''):
-    if dstr == '':
-        dstr = date.today().strftime('%Y%m%d')
-
-    currentPath = os.getcwd()
-    csv_file = currentPath + "/{}/".format(dstr)
-
-    if not os.path.exists(csv_file):
-        os.makedirs(csv_file)
-
-    return csv_file
-
 def get_new_listed_cc(cc_df, last_cc):
     last_cc['old'] = 1
     new_cc = pd.merge(cc_df, last_cc[['index', 'old']], left_on='index', right_on='index', how='outer')
     return new_cc[new_cc['old'] != 1]
+
 
 
 #
@@ -93,6 +95,10 @@ last_cc = pd.read_csv(last_csv)
 # print last_cc
 
 new_cc = get_new_listed_cc(cc_df, last_cc)
+
+file = 'new_cc_{}.csv'.format(datetime.now().strftime('%H%M%S'))
+file_path = get_day_path() + file
+new_cc.to_csv(file_path)
 
 print "##############$$$$$$$$$$$$$$###################"
 print cc_df.count()
