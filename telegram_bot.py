@@ -1,5 +1,6 @@
 import requests
 import datetime
+import secret
 
 class BotHandler:
 
@@ -30,11 +31,12 @@ class BotHandler:
 
         return last_update
 
-token = '595876423:AAGX_wVLXgR-0l0DO-Eyh_wRbh2g2ZXebww'
+SS = secret.get_secret_info()
+token = SS['tele_test_token']
 greet_bot = BotHandler(token)
 greetings = ('hello', 'hi', 'greetings', 'sup')
 now = datetime.datetime.now()
-my_chat_id = '516533547'
+my_chat_id = SS['tele_test_chat_id']
 def main():
     new_offset = None
     today = now.day

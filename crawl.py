@@ -6,8 +6,8 @@ from datetime import datetime, date, timedelta
 import config
 
 
-CC_COLUMNS = ['index', 'decimals', 'name', 'address'],
-STARED = ['WEL', 'EDR', 'CNN', 'IVN', 'ZCO', 'COIN'],
+CC_COLUMNS = ['index', 'decimals', 'name', 'address']
+STARED = ['WEL', 'EDR', 'CNN', 'IVN', 'ZCO', 'COIN']
 
 def get_day_path(dstr=''):
     if dstr == '':
@@ -66,6 +66,9 @@ def request_currencies_persisted():
     file = 'currencies_{}.csv'.format(datetime.now().strftime('%H%M%S'))
     file_path = get_day_path() + file
 
+    # print file_path
+    # print flat_dict
+
     WriteDictToCSV(file_path, CC_COLUMNS, flat_dict)
     return file_path
     # print flat_dict
@@ -90,7 +93,7 @@ cc_df = pd.read_csv(new_file)
 
 # print cc_df[cc_df['index'].isin(STARED)]
 # stared_cc = cc_df[cc_df['index'].isin(STARED)]
-last_csv = get_day_path(dstr='20180608') + "currencies_001952.csv"
+last_csv = get_day_path(dstr='20180608') + "currencies_170515.csv"
 last_cc = pd.read_csv(last_csv)
 # print last_cc
 
