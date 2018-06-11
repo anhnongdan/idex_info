@@ -93,7 +93,7 @@ cc_df = pd.read_csv(new_file)
 
 # print cc_df[cc_df['index'].isin(STARED)]
 # stared_cc = cc_df[cc_df['index'].isin(STARED)]
-last_csv = get_day_path(dstr='20180608') + "currencies_170515.csv"
+last_csv = get_day_path(dstr='20180610') + "currencies_204809.csv"
 last_cc = pd.read_csv(last_csv)
 # print last_cc
 
