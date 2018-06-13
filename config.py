@@ -7,10 +7,11 @@ from datetime import datetime, date, timedelta
 
 def get_config():
     return {
-        'cc_csv_today' : 'new_cc_{}.csv'.format(datetime.now().strftime('%H%M%S')),
+        'new_cc_csv_today' : 'new_cc_{}.csv'.format(datetime.now().strftime('%H%M%S')),
+        'cc_csv_today': 'currencies_{}.csv'.format(datetime.now().strftime('%H%M%S')),
         'CC_COLUMNS' : ['index', 'decimals', 'name', 'address'],
         'STARED' : ['WEL', 'EDR', 'CNN', 'IVN', 'ZCO', 'COIN'],
-
+        'DATA_PATH' : '/data/{}/'
     }
 
 def get_idex_api_config():
@@ -26,7 +27,7 @@ def get_day_path(dstr=''):
         dstr = date.today().strftime('%Y%m%d')
 
     currentPath = os.getcwd()
-    csv_file = currentPath + "/{}/".format(dstr)
+    csv_file = currentPath + get_config()['DATA_PATH'].format(dstr)
 
     if not os.path.exists(csv_file):
         os.makedirs(csv_file)
