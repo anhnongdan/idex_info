@@ -34,6 +34,10 @@ def get_day_path(dstr=''):
 
     return csv_file
 
+def get_new_today_cc_path():
+    file = get_config()['new_cc_csv_today'].format(datetime.now().strftime('%H%M%S'))
+    file_path = get_day_path() + file
+    return file_path
 
 if __name__ == "__main__":
     print get_config()
