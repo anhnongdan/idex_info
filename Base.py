@@ -30,10 +30,8 @@ class Base:
             # print flat_dict
 
             self.WriteDictToCSV(file_path,self.configs['CC_COLUMNS'], flat_dict)
-            return file_path
-            # print flat_dict
-        else:
-            return pd.DataFrame(flat_dict)
+
+        return pd.DataFrame(flat_dict)
 
     def request_ticker(self):
         r1 = requests.post(self.api_config['returnTicker'])
