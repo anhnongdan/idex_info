@@ -1,0 +1,2 @@
+,circulating_supply,id,last_updated,max_supply,name,quotes,rank,symbol,total_supply,website_slug
+USD,17095787.0,1,1529118875,21000000.0,Bitcoin,"{u'market_cap': 110920543298.0, u'percent_change_7d': -15.3, u'price': 6488.18, u'percent_change_24h': -2.05, u'volume_24h': 3881580000.0, u'percent_change_1h': 0.02}",1,BTC,17095787.0,bitcoin

@@ -22,6 +22,15 @@ def get_idex_api_config():
         'returnTicker' : url_base + 'returnTicker'
     }
 
+def get_cmc_api_config():
+    url_base =  'https://api.coinmarketcap.com/v2/'
+
+    return {
+        'returnCurrencies' : url_base + 'listings',
+        'returnTicker' : url_base + 'ticker/?convert={}',
+        'returnCoinTicker' : url_base + 'ticker/{}/?convert={}'
+    }
+
 def get_day_path(dstr=''):
     if dstr == '':
         dstr = date.today().strftime('%Y%m%d')
