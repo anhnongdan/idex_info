@@ -19,7 +19,8 @@ def get_idex_api_config():
 
     return {
         'returnCurrencies' : url_base + 'returnCurrencies',
-        'returnTicker' : url_base + 'returnTicker'
+        'returnTicker' : url_base + 'returnTicker',
+        'returnTradeHistory': url_base + 'returnTradeHistory'
     }
 
 def get_cmc_api_config():

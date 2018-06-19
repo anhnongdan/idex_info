@@ -43,6 +43,13 @@ class Base:
                         )
         return r.json()
 
+    def get_trade_history(self, coin):
+        r = requests.post(self.api_config['returnTradeHistory'],
+                            json={"market": 'ETH_' + coin}
+                        )
+        return pd.DataFrame(r.json())
+
+
     def ReadCSVasDict(self, csv_file, csv_columns=[]):
         try:
             with open(csv_file) as csvfile:
@@ -69,5 +76,5 @@ if __name__ == '__main__':
     # r = base_obj.request_ticker()
     # print r
 
-    result = base_obj.get_market_ticker('COU')
+    result = base_obj.get_trade_history('DAG')
     print result

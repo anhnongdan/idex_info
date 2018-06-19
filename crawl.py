@@ -15,7 +15,7 @@ new_cc = NewCurrency()
 # ReadCSVasDict(csv_file, csv_columns)
 # new_file = base_info.request_currencies_persisted()
 # cc_df = pd.read_csv(new_file)
-cc_df = base_info.request_currencies(persisted = False)
+cc_df = base_info.request_currencies(persisted = True)
 # print cc_df.count()
 # print cc_df
 
@@ -29,7 +29,7 @@ new_list = new_cc.get_new_listed_cc(cc_df, last_cc)
 new_info = new_cc.get_new_coin_volume(new_list)
 
 new_file_path = config.get_new_today_cc_path()
-# new_info.to_csv(new_file_path)
+new_info.to_csv(new_file_path)
 
 print "##############$$$$$$$$$$$$$$###################"
 print cc_df.count()
