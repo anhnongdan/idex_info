@@ -18,18 +18,20 @@ class NewCurrency(Base):
             r['index'] = coin
             result.append(r)
 
-        result_cols = ['index', 'baseVolume', 'percentChange','high', 'low', 'highestBid', 'quoteVolume']
+        result_cols = ['baseVolume', 'percentChange','high', 'low', 'highestBid', 'quoteVolume']
         result_pd = pd.DataFrame(result)
-        result_pd[result_pd['high'] == 'N/A'] = '-1'
-        result_pd[result_pd['low'] == 'N/A'] = '-1'
-        result_pd[result_pd['highestBid'] == 'N/A'] = '-1'
 
-        for col in result_cols:
-            if col == 'index':
-                continue
-            result_pd[col] = result_pd[col].astype(float)
+        for rcol in result_cols:
+            result_pd[result_pd['high'] == 'N/A'].loc[:, rcol] = '-1'
+            # result_pd[result_pd['low'] == 'N/A'].loc[:, 'low'] = '-1'
+            # result_pd[result_pd['highestBid'] == 'N/A'].loc[:, 'highestBid'] = '-1'
+            # result_pd[rcol] = result_pd[rcol].astype(float)
+
 
         result_pd = result_pd.sort_values(by=['baseVolume'], ascending=False)
+
+        result_cols.append('index')
+        print result_cols
         result_pd = result_pd[result_cols]
         return result_pd
 
