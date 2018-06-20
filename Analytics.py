@@ -15,15 +15,20 @@ class Analytics():
     def analyze_trade_history_time_line(self, th_df):
         # print th_df['date']
         # print th_df.describe()
-        print th_df.info()
+        # print th_df.info()
 
-        print th_df[['date', 'price', 'total', 'usdValue']]
+        # print th_df[['date', 'price', 'total', 'usdValue']]
         #
-        # th_df['hist_hour'] = pd.to_datetime(th_df.timestamp)
-        #
-        # hrs_count = th_df.groupby('hist_hour').count()
-        #
-        # print hrs_count
+        th_df['dt'] = pd.to_datetime(th_df.date, format="%Y-%m-%d %H:%M:%S")
+        th_df['bid_hour'] = th_df['dt'].dt.hour
+        th_df['bid_minute'] = th_df['dt'].dt.minute
+        th_df['bid_date'] = th_df['dt'].dt.date
+
+        hrs_count = th_df.groupby(['bid_date', 'bid_hour', 'bid_minute']).count()
+
+        print  hrs_count.info()
+        
+        # print hrs_count[hrs_count['bid_date'] == '2018-06-20' & hrs_count['bid_hour'] == 16]
 
         return th_df
 
