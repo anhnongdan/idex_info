@@ -17,13 +17,13 @@ class Analytics():
         # print th_df.describe()
         print th_df.info()
 
-        # print th_df[['date', 'timestamp', 'total', 'usdValue']]
-
-        th_df['hist_hour'] = pd.to_datetime(th_df.timestamp)
-
-        hrs_count = th_df.groupby('hist_hour').count()
-
-        print hrs_count
+        print th_df[['date', 'price', 'total', 'usdValue']]
+        #
+        # th_df['hist_hour'] = pd.to_datetime(th_df.timestamp)
+        #
+        # hrs_count = th_df.groupby('hist_hour').count()
+        #
+        # print hrs_count
 
         return th_df
 
@@ -38,5 +38,5 @@ if __name__ == '__main__':
     base_info = Base()
     analyzer = Analytics()
 
-    result = base_info.get_trade_history('DAG')
+    result = base_info.get_trade_history('NPXS')
     analyzer.analyze_trade_history_time_line(result)
