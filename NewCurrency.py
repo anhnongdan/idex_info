@@ -21,12 +21,14 @@ class NewCurrency(Base):
         result_cols = ['baseVolume', 'percentChange','high', 'low', 'highestBid', 'quoteVolume']
         result_pd = pd.DataFrame(result)
 
+        # print result_pd
+
         for rcol in result_cols:
             result_pd[result_pd['high'] == 'N/A'].loc[:, rcol] = '-1'
             # result_pd[result_pd['low'] == 'N/A'].loc[:, 'low'] = '-1'
             # result_pd[result_pd['highestBid'] == 'N/A'].loc[:, 'highestBid'] = '-1'
             # result_pd[rcol] = result_pd[rcol].astype(float)
-
+            pass
 
         result_pd = result_pd.sort_values(by=['baseVolume'], ascending=False)
 

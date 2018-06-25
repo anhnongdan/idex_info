@@ -21,20 +21,21 @@ cc_df = base_info.request_currencies(persisted = True)
 
 # print cc_df[cc_df['index'].isin(STARED)]
 # stared_cc = cc_df[cc_df['index'].isin(STARED)]
-last_csv = config.get_day_path(dstr='20180615') + "currencies_134748.csv"
+last_csv = config.get_day_path(dstr='20180621') + "currencies_211158.csv"
 last_cc = pd.read_csv(last_csv)
 # print last_cc
 
 new_list = new_cc.get_new_listed_cc(cc_df, last_cc)
-new_info = new_cc.get_new_coin_volume(new_list)
 
-new_file_path = config.get_new_today_cc_path()
-new_info.to_csv(new_file_path)
+if len(new_list.index > 0):
+    new_info = new_cc.get_new_coin_volume(new_list)
+    new_file_path = config.get_new_today_cc_path()
+    # new_info.to_csv(new_file_path)
+
+    print "############## NEW LISTED ###################"
+    print new_list
+    print new_info
 
 print "##############$$$$$$$$$$$$$$###################"
 print cc_df.count()
 print last_cc.count()
-print new_list
-# print new_cc
-
-print new_info
