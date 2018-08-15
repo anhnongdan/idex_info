@@ -49,6 +49,31 @@ class Base:
                         )
         return pd.DataFrame(r.json())
 
+    def get_new_coin_volume(self, cc_list):
+        result = []
+        for coin in cc_list:
+            r = self.get_market_ticker(coin)
+            r['index'] = coin
+            result.append(r)
+
+        result_cols = ['baseVolume', 'percentChange','high', 'low', 'highestBid', 'quoteVolume']
+        result_pd = pd.DataFrame(result)
+
+        # print result_pd
+
+        for rcol in result_cols:
+            result_pd[result_pd['high'] == 'N/A'].loc[:, rcol] = '-1'
+            # result_pd[result_pd['low'] == 'N/A'].loc[:, 'low'] = '-1'
+            # result_pd[result_pd['highestBid'] == 'N/A'].loc[:, 'highestBid'] = '-1'
+            # result_pd[rcol] = result_pd[rcol].astype(float)
+            pass
+
+        result_pd = result_pd.sort_values(by=['baseVolume'], ascending=False)
+
+        result_cols.append('index')
+        print result_cols
+        result_pd = result_pd[result_cols]
+        return result_pd
 
     def ReadCSVasDict(self, csv_file, csv_columns=[]):
         try:
